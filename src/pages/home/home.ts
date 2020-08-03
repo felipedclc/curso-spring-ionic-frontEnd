@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, IonicPage } from 'ionic-angular';
 
-@Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+@IonicPage() // REFERÊNCIA DE PÁGINA (a classe"HomePage" vira String)
+@Component({ // CLASSE CONTROLLER DA VIEW 
+  selector: 'page-home', 
+  templateUrl: 'home.html' 
 })
 export class HomePage {
 
