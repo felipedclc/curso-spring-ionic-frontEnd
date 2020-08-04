@@ -25,9 +25,6 @@ export class CategoriasPage {
     .subscribe(response => { // FUNÇÃO QUE SERÁ EXECUTADA QUANDO A CHAMADA CHEGAR (callback)
       this.items = response;  
     }, 
-    error => {
-      console.log(error)    
-    }); 
-    console.log(Response); // console.log - RETORNA A REQUISIÇÃO NO CONSOLE
+    error => {   }); 
   }
 }
