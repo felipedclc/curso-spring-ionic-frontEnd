@@ -8,8 +8,12 @@ import { NavController, IonicPage } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController) { // INJEÇÃO DE DEPENDÊNCIA (IMPORT NavController)
 
   }
 
+  public login() {
+    this.navCtrl.setRoot('CategoriasPage'); 
+
+  }
 }
