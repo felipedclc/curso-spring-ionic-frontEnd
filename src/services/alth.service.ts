@@ -2,11 +2,13 @@ import { Injectable } from "@angular/core";
 import { CredenciaisDTO } from "../models/credenciais.dto";
 import { HttpClient } from "@angular/common/http";
 import { API_CONFIG } from "../config/api.config";
+import { LocalUser } from "../models/local_user";
+import { StorageService } from "./storage.services";
 
 @Injectable()
 export class AuthService {
 
-    constructor(public http: HttpClient) {
+    constructor(public http: HttpClient, public storage: StorageService) { // INJEÇÕES DE DEPENDÊNCIA
 
     }
 
@@ -16,6 +18,17 @@ export class AuthService {
          {
             observe: `response`,  // PEGANDO O HEADER DA RESPOSTA - observe(tipo: objeto)
             responseType: `text` // NECESSÁRIO PORQUE A RESPOSTA VEM EM JSON EM UM CORPO VAZIO  
-         })  
+         }) 
     }
+    succesfulLogin(authorizationValue : String) { // APOS OCORRER O LOGIN
+        let tok = authorizationValue.substring(7); // RECORTANDO O STRING (TIRANDO O "BEARER" DO TOKEN)
+        let user : LocalUser = {
+            token: tok
+        };
+        this.storage.setLocalUser(user); // SETANDO O USER NO LOCAL STORAGE
+    }
+    logout() {
+        this.storage.setLocalUser(null); // REMOVENDO O USUARIO DO STORAGE
+    }
+
 }

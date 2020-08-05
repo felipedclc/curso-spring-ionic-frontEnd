@@ -31,7 +31,7 @@ export class HomePage {
   public login() { // ENVIANDO O FORMULÁRIO
     this.auth.authenticate(this.creds) // CHAMADA DO authenticate 
     .subscribe(response => { // INSCREVENDO PARA RECEBER A RESPOSTA
-      console.log(response.headers.get(`Authorization`));
+      this.auth.succesfulLogin(response.headers.get(`Authorization`)); // ARMAZENANDO O TOKEN NO LOCAL STORAGE
       this.navCtrl.setRoot('CategoriasPage'); // CHAMANDO A PAG DE CATEGORIAS
     },
     error=> {}) 
