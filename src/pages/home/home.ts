@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, IonicPage, MenuController } from 'ionic-angular';
 import { CredenciaisDTO } from '../../models/credenciais.dto';
+import { AuthService } from '../../services/alth.service';
 
 @IonicPage() // REFERÊNCIA DE PÁGINA (a classe"HomePage" vira String)
 @Component({ // CLASSE CONTROLLER DA VIEW 
@@ -14,8 +15,10 @@ export class HomePage {
     senha: ""
   }
 
-  constructor(public navCtrl: NavController, public menu: MenuController) { 
-    // INJEÇÃO DE DEPENDÊNCIA (IMPORT NavController, MenuController)
+  constructor(public navCtrl: NavController,   // INJEÇÃO DE DEPENDÊNCIA 
+     public menu: MenuController,
+     public auth: AuthService) { 
+    
   }
 
   ionViewWillEnter() { // PÁGINA DE ENTRADA (LOGIN)
@@ -26,8 +29,11 @@ export class HomePage {
   }
 
   public login() { // ENVIANDO O FORMULÁRIO
-    console.log(this.creds); // IMPRIMINDO O creds
-    this.navCtrl.setRoot('CategoriasPage'); 
-
+    this.auth.authenticate(this.creds) // CHAMADA DO authenticate 
+    .subscribe(response => { // INSCREVENDO PARA RECEBER A RESPOSTA
+      console.log(response.headers.get(`Authorization`));
+      this.navCtrl.setRoot('CategoriasPage'); // CHAMANDO A PAG DE CATEGORIAS
+    },
+    error=> {}) 
   }
 }
