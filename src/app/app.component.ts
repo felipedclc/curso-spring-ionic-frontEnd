@@ -18,7 +18,7 @@ export class MyApp {
     this.initializeApp();
 
     this.pages = [ // LISTA DE PAGINAS
-      { title: 'Profile', component: 'ProfilePage' }, // TÍTULO E NOME DA CLASSE (categorias.ts)
+      { title: 'Profile', component: 'ProfilePage' },
       { title: 'Categorias', component: 'CategoriasPage' }
     ];
 

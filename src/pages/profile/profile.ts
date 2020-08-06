@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { StorageService } from '../../services/storage.services';
+import { StorageService } from '../../services/storage.service';
+import { ClienteDTO } from '../../models/cliente.dto';
+import { ClienteService } from '../../services/domain/cliente.service';
+import { API_CONFIG } from '../../config/api.config';
 
-/**
- * Generated class for the ProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -16,18 +13,32 @@ import { StorageService } from '../../services/storage.services';
 })
 export class ProfilePage {
 
-  email: string;
+ cliente: ClienteDTO;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public storage: StorageService) {
+    public storage: StorageService,
+    public clienteService: ClienteService) {
   }
 
   ionViewDidLoad() { // INICIA QUANDO A PAG FOR CARREGADA
-    let localUser = this.storage.getLocalUser(); // LOCAL USER ESTA VALENDO O OBJ JSON 
-    if(localUser && localUser.email) {
-      this.email = localUser.email; // CARREGANDO O EMAIL NA PAG DE PROFILE
+    let localUser = this.storage.getLocalUser(); // RECUP O USUARIO DO STORAGE
+    if (localUser && localUser.email) {
+      this.clienteService.findByEmail(localUser.email)
+        .subscribe(response => {
+          this.cliente = response;
+          this.getImageIfExists();
+        },
+        error => {});
     }
+  }
+
+  getImageIfExists() {
+    this.clienteService.getImageFromBucket(this.cliente.id)
+    .subscribe(response => {
+      this.cliente.ImageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.jpg`;
+    },
+    error => {});
   }
 }
